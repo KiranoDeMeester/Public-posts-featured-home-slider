@@ -11,24 +11,38 @@ use Illuminate\Support\Facades\Storage;
 class MediaService
 {
     /**
-     * Upload een nieuwe afbeelding en koppel deze aan een model
+     * De constructor injecteert de ImageProcessorService.
+     * Dit is een 'SOLID' oplossing: Separation of Concerns.
+     */
+    public function __construct(
+        protected ImageProcessorService $imageProcessor
+    ) {}
+
+    /**
+     * Upload een nieuwe afbeelding, verwerk deze via Intervention en koppel aan model
      */
     public function upload($model, UploadedFile $file, ?string $directory = null): Media
     {
         $disk = 'public';
 
-        $path = $file->store($directory, $disk);
+        // 1. Genereer een unieke bestandsnaam (we forceren .jpg vanwege de conversie)
+        $hashName = $file->hashName();
+        $filename = pathinfo($hashName, PATHINFO_FILENAME) . '.jpg';
+        $targetPath = $directory ? $directory . '/' . $filename : $filename;
 
-        $filename = basename($path);
+        // 2. Verwerk de afbeelding met de ImageProcessorService (Resizing & Optimalisatie)
+        $processedImageData = $this->imageProcessor->process($file);
 
-        $directory = dirname($path) === '.' ? null : dirname($path);
+        // 3. Sla de bewerkte binaire data op de schijf op
+        Storage::disk($disk)->put($targetPath, $processedImageData);
 
+        // 4. Maak het Media record aan in de database
         $media = new Media([
             'disk' => $disk,
             'directory' => $directory,
             'filename' => $filename,
-            'mime_type' => $file->getClientMimeType(),
-            'size' => $file->getSize(),
+            'mime_type' => 'image/jpeg',
+            'size' => Storage::disk($disk)->size($targetPath),
         ]);
 
         $model->media()->save($media);
@@ -50,7 +64,7 @@ class MediaService
     }
 
     /**
-     * Verwijder enkel de fysieke file
+     * Verwijder enkel de fysieke file van de schijf
      */
     public function deleteFile(Media $media): void
     {
@@ -62,12 +76,11 @@ class MediaService
     }
 
     /**
-     * Verwijder file en media record
+     * Volledige verwijdering: file én database record
      */
     public function delete(Media $media): void
     {
         $this->deleteFile($media);
-
         $media->delete();
     }
 }

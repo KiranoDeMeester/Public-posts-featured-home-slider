@@ -13,6 +13,10 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Route;
 
+Route::get('/php-check', function() {
+    phpinfo();
+});
+
 // --- Frontend Routes ---
 Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/about', [HomeController::class, 'about'])->name('about');
