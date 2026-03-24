@@ -60,12 +60,12 @@
                         <td>{{ $post->editor?->name ?? '-' }}</td>
                     </tr>
                     <tr>
-                        <th>Status</th>
+                        <th>Featured</th>
                         <td>
-                            @if($post->is_published)
-                                <span class="badge bg-success">published</span>
+                            @if($post->is_featured)
+                                <span class="badge bg-warning text-dark">Yes (in slider)</span>
                             @else
-                                <span class="badge bg-secondary">draft</span>
+                                <span class="badge bg-light text-dark">No</span>
                             @endif
                         </td>
                     </tr>

@@ -90,6 +90,27 @@
         <div class="form-text">Leave blank to use the current moment when publishing.</div>
     </div>
 
+    {{-- ========================= FEATURED ========================= --}}
+    <div class="col-12">
+        <div class="form-check">
+            <input type="hidden" name="is_featured" value="0">
+            <input
+                class="form-check-input @error('is_featured') is-invalid @enderror"
+                type="checkbox"
+                name="is_featured"
+                value="1"
+                id="is_featured"
+                @checked(old('is_featured', $post?->is_featured ?? false))
+            >
+            <label class="form-check-label" for="is_featured">
+                <strong>Feature this post</strong> (Tonen in de slider op de homepagina)
+            </label>
+            @error('is_featured')
+            <div class="invalid-feedback d-block">{{ $message }}</div>
+            @enderror
+        </div>
+    </div>
+
     {{-- ========================= EXCERPT ========================= --}}
     <div class="col-12">
         <label class="form-label">Excerpt</label>

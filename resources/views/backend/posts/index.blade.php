@@ -161,6 +161,10 @@
                                 @if($post->deleted_at)
                                     <span class="badge bg-danger ms-1">deleted</span>
                                 @endif
+
+                                @if($post->is_featured)
+                                    <span class="badge bg-warning text-dark ms-1"><i class="fas fa-star"></i> featured</span>
+                                @endif
                             </td>
 
                             <td>{{ $post->user?->name ?? '-' }}</td>

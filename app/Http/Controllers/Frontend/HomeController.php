@@ -13,11 +13,11 @@ class HomeController extends Controller
 {
     public function index(): View
     {
-        // 1. Haal de featured posts op (max 4)
         $featuredPosts = Post::query()
             ->with(['user', 'categories', 'media'])
             ->where('is_published', true)
             ->whereNotNull('published_at')
+            ->where('is_featured', true)
             ->latest('published_at')
             ->take(4)
             ->get();
