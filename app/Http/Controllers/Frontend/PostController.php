@@ -10,7 +10,16 @@ class PostController extends Controller
 {
     public function index()
     {
-        return 'Hier komt later de publieke posts index (Opdracht 4)';
+        $posts = Post::query()
+            ->with(['user', 'categories', 'media'])
+            ->where('is_published', true)
+            ->whereNotNull('published_at')
+            ->latest('published_at')
+            ->paginate(9);
+
+        return view('frontend.posts.index', [
+            'posts' => $posts
+        ]);
     }
 
     public function show(Post $post)
