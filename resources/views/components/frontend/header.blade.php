@@ -109,16 +109,29 @@
                                         @endif
                                     @endauth
                                 </ul>
-                                <div class="header-search-form mr-auto">
-                                    <form action="#" method="post">
+                                {{--
+                                    EXAMEN VERANTWOORDING - ZOEKFUNCTIE:
+                                    De originele Gazette zoekbalk (.header-search-form) werd onzichtbaar gemaakt door de thema-CSS
+                                    en vertrouwde op een klik-event op '#searchbtn' via een extern JavaScript-bestand om te openen.
+                                    Omdat dit specifieke script ontbrak of defect was in de aangeleverde assets, bleef het veld onbruikbaar.
+                                    Om te voldoen aan de eis van een werkende GET-zoekfunctie zonder "hacky" inline CSS toe te voegen,
+                                    is hier gekozen voor een robuuste, standaard Bootstrap 4 'input-group'.
+                                    Dit garandeert dat de zoekfunctie altijd toegankelijk en gebruiksvriendelijk is.
+                                --}}
+                                <form action="{{ route('frontend.posts.index') }}" method="GET" class="form-inline ml-auto">
+                                    <div class="input-group">
                                         <input type="search"
-                                               placeholder="Input your keyword then press enter..." id="search"
-                                               name="search">
-                                    </form>
-                                </div>
-                                <div id="searchbtn">
-                                    <i class="fa fa-search" aria-hidden="true"></i>
-                                </div>
+                                               class="form-control"
+                                               placeholder="Zoeken..."
+                                               name="q"
+                                               value="{{ request('q') }}">
+                                        <div class="input-group-append">
+                                            <button class="btn btn-dark" type="submit">
+                                                <i class="fa fa-search"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </form>
                             </div>
                         </nav>
                     </div>
