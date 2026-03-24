@@ -2,25 +2,9 @@
     title="Alle Artikels"
     meta-description="Een overzicht van al onze gepubliceerde posts."
 >
-    {{-- Breadcrumb area --}}
-    <div class="breadcumb-area section_padding_50">
-        <div class="container">
-            <div class="row">
-                <div class="col-12">
-                    <div class="breacumb-content d-flex align-items-center justify-content-between">
-                        <h3 class="font-pt mb-0">
-                            @if(request('q'))
-                                Zoekresultaten voor: "{{ request('q') }}"
-                            @else
-                                Alle Artikels
-                            @endif
-                        </h3>
-                        <p class="mb-0">Ontdek ons nieuwsoverzicht</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+    <x-frontend.breadcrumb
+        :title="request('q') ? 'Zoekresultaten voor: ' . request('q') : 'Alle Artikels'"
+    />
 
     {{-- Het raster met de posts --}}
     <section class="gazatte-blog-area section_padding_100_50">

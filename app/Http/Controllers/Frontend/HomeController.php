@@ -86,4 +86,13 @@ class HomeController extends Controller
             'categories' => $categories,
         ]);
     }
+    public function contact()
+    {
+        return view('frontend.contact');
+    }
+
+    public function about()
+    {
+        return view('frontend.about');
+    }
 }

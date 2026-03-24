@@ -1,7 +1,6 @@
 <?php
 
 use App\Http\Controllers\CategoryController;
-use App\Http\Controllers\ContactController;
 use App\Http\Controllers\Frontend\HomeController;
 use App\Http\Controllers\MediaController;
 use App\Http\Controllers\PostController;
@@ -14,14 +13,15 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Route;
 
-// frontend routes
+// --- Frontend Routes ---
 Route::get('/', [HomeController::class, 'index'])->name('home');
-Route::get('/contact', [ContactController::class, 'create'])->name('contact');
-Route::post('/contact', [ContactController::class, 'store'])->name('frontend.contact.store');
-Route::view('/about', 'frontend.about')->name('about');
+Route::get('/about', [HomeController::class, 'about'])->name('about');
+Route::get('/contact', [HomeController::class, 'contact'])->name('contact');
+
+// --- Post & Category Routes ---
 Route::get('/posts', [FrontendPostController::class, 'index'])->name('frontend.posts.index');
 Route::get('/posts/{post:slug}', [FrontendPostController::class, 'show'])->name('frontend.posts.show');
-Route::get('/category/{category:slug}', [FrontendCategoryController::class, 'show'])->name('frontend.categories.show');
+Route::get('/categories/{category:slug}', [FrontendCategoryController::class, 'show'])->name('frontend.categories.show');
 
 // backend dashboard
 Route::get('/backend', function (): Factory|View {

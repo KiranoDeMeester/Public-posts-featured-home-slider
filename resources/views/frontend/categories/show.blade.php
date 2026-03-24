@@ -2,25 +2,11 @@
     title="Categorie: {{ $category->name }}"
     meta-description="{{ $category->description ?? 'Bekijk alle artikels in ' . $category->name }}"
 >
-    {{-- Categorie Header --}}
-    <div class="breadcumb-area section_padding_50">
-        <div class="container">
-            <div class="row">
-                <div class="col-12">
-                    <div class="breacumb-content">
-                        <h3 class="font-pt mb-2">Categorie: {{ $category->name }}</h3>
-
-                        {{-- EXAMEN EIS: Toon beschrijving indien beschikbaar --}}
-                        @if($category->description)
-                            <p class="mb-0 text-muted">{{ $category->description }}</p>
-                        @else
-                            <p class="mb-0 text-muted">Ontdek alle artikels binnen de categorie {{ $category->name }}.</p>
-                        @endif
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+    <x-frontend.breadcrumb
+        :title="'Categorie: ' . $category->name"
+        :parentUrl="route('frontend.posts.index')"
+        parentText="Artikels"
+    />
 
     {{-- Post Overzicht --}}
     <section class="gazatte-blog-area section_padding_100_50">
