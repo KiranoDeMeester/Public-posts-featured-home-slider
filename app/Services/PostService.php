@@ -24,10 +24,12 @@ class PostService
                 'excerpt' => $data['excerpt'] ?? null,
                 'body' => $data['body'],
                 'is_published' => $data['is_published'],
-                'is_featured' => $data['is_featured'],
+                'is_featured' => $data['is_featured'] ?? false,
                 'published_at' => $data['published_at'] ?? null,
             ]);
+
             $post->categories()->sync($data['categories'] ?? []);
+
             if (isset($data['image']) && $data['image'] instanceof UploadedFile) {
                 $this->mediaService->upload(
                     $post,
@@ -35,6 +37,7 @@ class PostService
                     'posts'
                 );
             }
+
             PostCreated::dispatch($post);
 
             return $post;
@@ -51,10 +54,12 @@ class PostService
                 'excerpt' => $data['excerpt'] ?? null,
                 'body' => $data['body'],
                 'is_published' => $data['is_published'],
-                'is_featured' => $data['is_featured'],
+                'is_featured' => $data['is_featured'] ?? false,
                 'published_at' => $data['published_at'] ?? null,
             ]);
+
             $post->categories()->sync($data['categories'] ?? []);
+
             if (isset($data['image']) && $data['image'] instanceof UploadedFile) {
                 $this->mediaService->replace(
                     $post,
@@ -62,6 +67,7 @@ class PostService
                     'posts'
                 );
             }
+
             PostUpdated::dispatch($post);
 
             return $post;
