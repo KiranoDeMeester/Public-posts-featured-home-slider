@@ -30,6 +30,14 @@ class PostController extends Controller
 
     public function show(Post $post)
     {
-        return 'Hier komt later de detailpagina voor: ' . $post->title . ' (Opdracht 6)';
+        if (! $post->is_published || $post->published_at === null) {
+            abort(404);
+        }
+
+        $post->load(['user', 'categories', 'media']);
+
+        return view('frontend.posts.show', [
+            'post' => $post,
+        ]);
     }
 }
